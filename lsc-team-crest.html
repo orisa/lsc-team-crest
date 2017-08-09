@@ -1,0 +1,97 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+
+<!--
+`lsc-team`
+shows logo of a team
+
+@demo demo/index.html
+-->
+
+<dom-module id="lsc-team-crest">
+  <template>
+    <style>
+       :host{
+                box-sizing:border-box;
+                width: min-content;
+                @apply(--layout);
+                @apply(--layout-vertical);
+                @apply(--layout-center);
+                @apply(--lsc-team-crest);
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                outline: none;
+            }
+            
+
+            /********** Typography **********/
+
+            .teamName {
+                text-transform:uppercase;
+            }
+
+            .paper-font-title {
+                @apply(--paper-font-title);
+            }
+            
+            .paper-font-subhead {
+                @apply(--paper-font-subhead);
+            }
+
+            img {
+                @apply(--lsc-team-crest-src);
+            }
+            
+            .teamName {
+                @apply(--lsc-team-crest-name);
+            }
+
+             #stats {
+                @apply(--lsc-team-crest-stats);
+            }
+
+        </style>
+          <img id="img" alt="team photo" on-load="_onImgLoad">
+           <p class="paper-font-title teamName">[[name]]</p>
+          <p class="paper-font-subhead" id="stats">[[stats]]</p>
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'lsc-team-crest',
+
+      properties: {
+         src: String,
+         name: String,
+         stats: String,
+      },
+
+      observers: [
+        '_srcChanged(src)'
+      ],
+
+        _srcChanged: function(src) {
+                this.$.img.removeAttribute('src');
+                this.$.img.style.transition = '';
+                this.$.img.style.opacity = 0;
+                if (src) {
+                    this.$.img.src = src;
+                }
+            },
+            
+
+            _onImgLoad: function() {
+                if (this.src) {
+                    this.$.img.src = this.src;
+                    this.$.img.style.transition = '0.8s opacity';
+                    this.$.img.style.opacity = 1;
+                }
+                
+            }
+
+    });
+  </script>
+</dom-module>
